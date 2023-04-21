@@ -29,16 +29,63 @@ void setup() {
 void loop() {
   delay(2000);
   
-  lamp_mode(1, 0);
-  int val = analogRead(PIN_PHOTO_SENSOR);
-  
-   Serial.println(val);
-  delay(2000);
+//  lamp_mode(1, 0);
+//  int photo_sensor = analogRead(PIN_PHOTO_SENSOR);
+  lamp_mode(0, 0);
+  Serial.println(00);
+    
+  delay(4000);
+  lamp_mode(1, 5);
+  Serial.println(15);
+
+  delay(4000);
+  lamp_mode(2, 8);
+  Serial.println(28);
+
+  delay(4000);
+  lamp_mode(3, 9);
+  Serial.println(39);
+ 
+   
+  delay(5000);
 }
 
 
 void lamp_mode( int mode, int brightness ){
 
+    int photo_sensor = analogRead(PIN_PHOTO_SENSOR);
+
+    if( photo_sensor > 400 ){
+//    если свет выключен
+    digitalWrite(latchPin, LOW); // начинаем передачу данных
+    shiftOut(dataPin, clockPin, LSBFIRST, 0b00010000);
+    digitalWrite(latchPin, HIGH); // прекращаем передачу данных
+    delay(50);
+    digitalWrite(latchPin, LOW); // начинаем передачу данных
+    shiftOut(dataPin, clockPin, LSBFIRST, 0b00000000);
+    digitalWrite(latchPin, HIGH); // прекращаем передачу данных
+    delay(50);
+  }else{
+    //    если свет включён
+    digitalWrite(latchPin, LOW); // начинаем передачу данных
+    shiftOut(dataPin, clockPin, LSBFIRST, 0b00010000);
+    digitalWrite(latchPin, HIGH); // прекращаем передачу данных
+    delay(50);
+    digitalWrite(latchPin, LOW); // начинаем передачу данных
+    shiftOut(dataPin, clockPin, LSBFIRST, 0b00000000);
+    digitalWrite(latchPin, HIGH); // прекращаем передачу данных
+    delay(50);
+    digitalWrite(latchPin, LOW); // начинаем передачу данных
+    shiftOut(dataPin, clockPin, LSBFIRST, 0b00010000);
+    digitalWrite(latchPin, HIGH); // прекращаем передачу данных
+    delay(50);
+    digitalWrite(latchPin, LOW); // начинаем передачу данных
+    shiftOut(dataPin, clockPin, LSBFIRST, 0b00000000);
+    digitalWrite(latchPin, HIGH); // прекращаем передачу данных
+    delay(50);
+  }
+  
+  
   if(brightness > 8){
     brightness = 8; 
   }else if(brightness < 1){
@@ -51,14 +98,7 @@ void lamp_mode( int mode, int brightness ){
     mode = 1;  
   }
   
-// включаю лампу
-  digitalWrite(latchPin, LOW); // начинаем передачу данных
-  shiftOut(dataPin, clockPin, LSBFIRST, 0b00010000);
-  digitalWrite(latchPin, HIGH); // прекращаем передачу данных
-  delay(50);
-  digitalWrite(latchPin, LOW); // начинаем передачу данных
-  shiftOut(dataPin, clockPin, LSBFIRST, 0b00000000);
-  digitalWrite(latchPin, HIGH); // прекращаем передачу данных
+
 
 // устанавливаю яркость
   int need_press_button_brightness = 8 - brightness;
