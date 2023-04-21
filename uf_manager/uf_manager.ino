@@ -2,11 +2,16 @@ int dataPin = 9;    // к выводу 14 регистра SD
 int clockPin = 11;  // к выводу 11 регистра (SH_CP)
 int latchPin = 12;  // к выводу 12 регистра (ST_CP)
 
+#define PIN_LED 13
+#define PIN_PHOTO_SENSOR A0
+
 void setup() {
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
   digitalWrite(latchPin, LOW);
+  
+  pinMode(PIN_LED, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -23,10 +28,11 @@ void setup() {
 
 void loop() {
   delay(2000);
-
-  lamp_mode(1, 8);
-
-
+  
+  lamp_mode(1, 0);
+  int val = analogRead(PIN_PHOTO_SENSOR);
+  
+   Serial.println(val);
   delay(2000);
 }
 
